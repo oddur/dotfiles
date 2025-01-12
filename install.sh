@@ -83,3 +83,4 @@ brew install neovim
 
 brew install tailscale
 brew install zellij
+brew install atuin 

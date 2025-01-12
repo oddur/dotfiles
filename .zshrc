@@ -20,6 +20,9 @@ source <(kubectl completion zsh)
 source <(istioctl completion zsh)
 source ~/google-cloud-sdk/*.zsh.inc
 
+# atuin for command history
+eval "$(atuin init zsh)"
+
 # load the environment variables
 source ~/set_env_vars.sh
 
