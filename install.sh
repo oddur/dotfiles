@@ -80,3 +80,6 @@ brew install htop
 brew install dustu
 
 brew install neovim
+
+brew install tailscale
+brew install zellij
