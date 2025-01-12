@@ -4,11 +4,6 @@ brew install stow
 # Install Fira Code Nerd Font for a better coding experience with ligatures
 brew install font-fira-code-nerd-font
 
-# Install Zinit, a fast and flexible Zsh plugin manager
-# Reference: https://github.com/zdharma-continuum/zinit?tab=readme-ov-file#install
-bash -c "$(curl --fail --show-error --silent \
-    --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-
 # Install Fira Code font (non-Nerd variant) for general use
 # Reference: https://github.com/tonsky/FiraCode/wiki/Installing
 brew install --cask font-fira-code
@@ -46,6 +41,9 @@ brew install teller
 ## General utilities
 # Install fuzzy finder (fzf) for command-line searching and navigation
 brew install fzf
+
+# install zoxide for fast directory navigation
+brew install zoxide
 
 # Install ripgrep (rg), a fast search tool for files and directories
 brew install ripgrep
@@ -92,9 +90,6 @@ brew install gum
 
 # Install Starship, a highly customizable shell prompt for any shell environment
 brew install starship
-
-# Install Z, a directory jumper to quickly navigate frequently used directories based on usage history
-brew install z
 
 # Install Tmux, a terminal multiplexer to manage multiple terminal sessions in one window or remotely 
 brew install tmux
