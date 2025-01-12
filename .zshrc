@@ -34,6 +34,8 @@ autoload -U compinit; compinit
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
+export XDG_CONFIG_HOME=$HOME/.config
+
 echo "****** starship"
 eval "$(starship init zsh)"
 
