@@ -29,12 +29,6 @@ source ~/set_env_vars.sh
 
 echo "****** setting up gcloud"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/google-cloud-sdk/path.zsh.inc' ]; then . '~/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '~/google-cloud-sdk/completion.zsh.inc' ]; then . '~/google-cloud-sdk/completion.zsh.inc'; fi
 autoload -U compinit; compinit
 
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -92,7 +86,8 @@ source ~/fzf-git.sh
 
 # ---- Eza (better ls) -----
 
-alias ls='eza --long --all --no-permissions --no-filesize --no-user --no-time --git'
+alias ls='eza --all --icons=always  --no-permissions --no-filesize --no-user --no-time --git'
+alias ll='eza --long  --header --all --icons=always  --git'
 alias lst='eza --long --all --no-permissions --no-filesize --no-user --git --sort modified'
 alias fzfp='fzf --preview \"bat --style numbers --color always {}\"'
 alias cat='bat --paging never --theme DarkNeon --style plain'
@@ -125,3 +120,9 @@ zinit light-mode for \
 # setup terraform plugin cache to speed things up
 mkdir -p $HOME/.terraform.d/plugin-cache
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
