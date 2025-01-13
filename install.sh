@@ -74,8 +74,7 @@ brew install github
 # Install Terraform, an infrastructure as code tool by HashiCorp
 brew install terraform
 
-# Install Terramate, a tool to manage Terraform configurations at scale
-brew install terramate
+brew install asdf
 
 ## Shell enhancements and utilities
 # Install Bat, a cat command replacement with syntax highlighting and Git integration
