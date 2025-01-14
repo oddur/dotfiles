@@ -141,7 +141,7 @@ format = " ◯[$localipv4](bold magenta)"
 disabled = false
 
 [time]
-disabled = false
+disabled = true
 format = "[ $time]($style)"
 time_format = "%R"
 utc_time_offset = "local"
@@ -215,6 +215,7 @@ detect_folders = ["node_modules"]
 detect_extensions = []
 
 [python]
+disabled = true
 format = " [py](italic) [${symbol}${version}]($style)"
 symbol = "[⌉](bold bright-blue)⌊ "
 version_format = "${raw}"
@@ -313,3 +314,9 @@ unknown_msg = '[◌](bold dimmed ellow)'
 [spack]
 symbol = "◇ "
 format = " spack [$symbol$environment]($style)"
+
+[gcloud]
+disabled = true
+
+[dotnet]
+disabled = true
