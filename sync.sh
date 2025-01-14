@@ -23,7 +23,7 @@ export GITHUB_TOKEN="$GITHUB_TOKEN"
 EOL
 
 # Make the file executable, but not readble and writeable by anyone
-chmod 100 "$TARGET_FILE"
+chmod 700 "$TARGET_FILE"
 
 # Print success message
 echo "Environment variables written to: $TARGET_FILE"

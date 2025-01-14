@@ -21,7 +21,7 @@ source ~/google-cloud-sdk/*.zsh.inc
 eval "$(atuin init zsh)"
 
 # load the environment variables
-source ~/set_env_vars.sh
+source ~/.set_env_vars.sh
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 autoload -U compinit; compinit
