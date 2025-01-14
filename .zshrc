@@ -1,18 +1,15 @@
-echo "****** Starting Oddurs shell setup"
-autoload -U compinit; compinit
+echo "# Welcome to Oddur's Shell Config " | gum format
 
+autoload -U compinit; compinit
 
 # Prevents duplicate commands from being stored in the command history.
 setopt HIST_IGNORE_ALL_DUPS
 
 # Devbox
-echo "****** Setting up Devbox"
 DEVBOX_NO_PROMPT=true
 eval "$(devbox global shellenv --init-hook)"
 
-
 # Add autocompletions
-echo "****** Setting autocompletions"
 source <(kubectl completion zsh)
 source <(devbox completion zsh)
 source <(docker completion zsh)
@@ -26,8 +23,6 @@ eval "$(atuin init zsh)"
 # load the environment variables
 source ~/set_env_vars.sh
 
-
-echo "****** setting up gcloud"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 autoload -U compinit; compinit
 
@@ -36,20 +31,18 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 
 export XDG_CONFIG_HOME=$HOME/.config
 
-echo "****** starship"
 eval "$(starship init zsh)"
 
-echo "****** setting up zsh"
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-
+# Fuzzy search
 source <(fzf --zsh)
 
 # use zoxide instead of cd
 eval "$(zoxide init zsh)"
 alias cd="z"
-
 
 # kubecolor
 compdef kubecolor=kubectl
