@@ -28,6 +28,7 @@ autoload -U compinit; compinit
 
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -44,8 +45,12 @@ source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 alias cd="z"
 
+# initialize direnv
+eval "$(direnv hook zsh)"
+
+
 # kubecolor
-compdef kubecolor=kubectl
+#compdef kubecolor=kubectl
 
 eval $(thefuck --alias)
 
@@ -75,7 +80,7 @@ source ~/fzf-git.sh
 # ---- Eza (better ls) -----
 
 alias ls='eza --all --icons=always  --no-permissions --no-filesize --no-user --no-time --git'
-alias ll='eza --long  --header --all --icons=always  --git'
+alias ll='eza --long  --header --all --icons=always  --git --no-user --no-permissions'
 alias lst='eza --long --all --no-permissions --no-filesize --no-user --git --sort modified'
 alias fzfp='fzf --preview \"bat --style numbers --color always {}\"'
 alias cat='bat --paging never --theme DarkNeon --style plain'
@@ -92,3 +97,19 @@ if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+for pattern_file in $HOME/.config/fabric/patterns/*; do
+    # Get the base name of the file (i.e., remove the directory path)
+    pattern_name=$(basename "$pattern_file")
+
+    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
+    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
+
+    # Evaluate the alias command to add it to the current shell
+    eval "$alias_command"
+done
+
+
+

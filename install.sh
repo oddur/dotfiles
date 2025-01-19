@@ -12,6 +12,8 @@ brew install --cask font-fira-code
 # Reference: https://www.jetify.com/devbox/docs/installing_devbox/
 curl -fsSL https://get.jetify.com/devbox | bash
 
+brew install direnv
+
 # GitHub CLI tool for interacting with GitHub repositories from the terminal
 brew install gh
 
@@ -115,3 +117,4 @@ brew install atuin # Enhanced shell history management.
 
 ## JSON processing:
 brew install jq # Lightweight and flexible command-line JSON processor.
+
