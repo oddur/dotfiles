@@ -15,6 +15,7 @@ source <(devbox completion zsh)
 source <(docker completion zsh)
 source <(kubectl completion zsh)
 source <(istioctl completion zsh)
+source <(stern --completion=zsh)
 source ~/google-cloud-sdk/*.zsh.inc
 
 # atuin for command history
@@ -97,19 +98,4 @@ if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
-
-
-# Loop through all files in the ~/.config/fabric/patterns directory
-for pattern_file in $HOME/.config/fabric/patterns/*; do
-    # Get the base name of the file (i.e., remove the directory path)
-    pattern_name=$(basename "$pattern_file")
-
-    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
-    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
-
-    # Evaluate the alias command to add it to the current shell
-    eval "$alias_command"
-done
-
-
 
