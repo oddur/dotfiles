@@ -86,6 +86,9 @@ alias lst='eza --long --all --no-permissions --no-filesize --no-user --git --sor
 alias fzfp='fzf --preview \"bat --style numbers --color always {}\"'
 alias cat='bat --paging never --theme DarkNeon --style plain'
 alias kubectl='kubecolor'
+alias v="nvim"
+alias k="kubectl"
+alias g="git"
 
 # setup terraform plugin cache to speed things up
 mkdir -p $HOME/.terraform.d/plugin-cache
