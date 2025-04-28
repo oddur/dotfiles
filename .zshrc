@@ -1,13 +1,17 @@
-echo "# Welcome to Oddur's Shell Config " | gum format
+echo "# 👾 Welcome to Oddur's Mega Shell Config 👾" | gum format
 
 autoload -U compinit; compinit
 
 # Prevents duplicate commands from being stored in the command history.
 setopt HIST_IGNORE_ALL_DUPS
 
+echo "## Setting up devbox" | gum format
 # Devbox
 DEVBOX_NO_PROMPT=true
 eval "$(devbox global shellenv --init-hook)"
+echo "## copleted Setting up devbox" | gum format
+
+echo "## adding autocompletions  " | gum format
 
 # Add autocompletions
 source <(kubectl completion zsh)
@@ -16,11 +20,11 @@ source <(docker completion zsh)
 source <(kubectl completion zsh)
 source <(istioctl completion zsh)
 source <(stern --completion=zsh)
-source ~/google-cloud-sdk/*.zsh.inc
 
 # atuin for command history
 eval "$(atuin init zsh)"
 
+echo "## adding environment variables " | gum format
 # load the environment variables
 source ~/.set_env_vars.sh
 
@@ -33,11 +37,15 @@ export PATH="$HOME/bin:$PATH"
 
 export XDG_CONFIG_HOME=$HOME/.config
 
+echo "## initialize starship" | gum format
+
 eval "$(starship init zsh)"
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+echo "## initialize fzf and friends" | gum format
 
 # Fuzzy search
 source <(fzf --zsh)
@@ -54,6 +62,8 @@ eval "$(direnv hook zsh)"
 #compdef kubecolor=kubectl
 
 eval $(thefuck --alias)
+
+echo "## initialize rfv" | gum format
 
 # Taken from https://junegunn.github.io/fzf/tips/ripgrep-integration/
 # ripgrep->fzf->vim [QUERY]
@@ -76,9 +86,10 @@ rfv() (
 )
 
 
+echo "## initialize fzf" | gum format
 source ~/fzf-git.sh
 
-# ---- Eza (better ls) -----
+echo "## initialize alias" | gum format
 
 alias ls='eza --all --icons=always  --no-permissions --no-filesize --no-user --no-time --git'
 alias ll='eza --long  --header --all --icons=always  --git --no-user --no-permissions'
@@ -89,16 +100,26 @@ alias kubectl='kubecolor'
 alias v="nvim"
 alias k="kubectl"
 alias g="git"
+alias lg="lazygit"
 
+echo "## initialize terraform cache" | gum format
 # setup terraform plugin cache to speed things up
 mkdir -p $HOME/.terraform.d/plugin-cache
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
+echo "## Initializing google cloud" | gum format
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+echo "# Shell init complete" | gum format
+echo "# You are in $(pwd)" | gum format
 
+# setup for claude code to use vertex
+export CLAUDE_CODE_USE_VERTEX=1
+export CLOUD_ML_REGION=us-east5
+export ANTHROPIC_VERTEX_PROJECT_ID=seed-209211
+
+alias claude="/Users/oddurmagnusson/.claude/local/claude"
