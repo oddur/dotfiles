@@ -85,6 +85,9 @@ rfv() (
       --query "$*"
 )
 
+export EDITOR="nvim"
+
+
 
 echo "## initialize fzf" | gum format
 source ~/fzf-git.sh
@@ -101,6 +104,7 @@ alias v="nvim"
 alias k="kubectl"
 alias g="git"
 alias lg="lazygit"
+alias y="yazi"
 
 echo "## initialize terraform cache" | gum format
 # setup terraform plugin cache to speed things up
@@ -117,9 +121,18 @@ if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/
 echo "# Shell init complete" | gum format
 echo "# You are in $(pwd)" | gum format
 
-# setup for claude code to use vertex
-export CLAUDE_CODE_USE_VERTEX=1
-export CLOUD_ML_REGION=us-east5
-export ANTHROPIC_VERTEX_PROJECT_ID=seed-209211
 
-alias claude="/Users/oddurmagnusson/.claude/local/claude"
+# pnpm
+export PNPM_HOME="/Users/oddurmagnusson/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+#
+
+if [[ -o interactive ]]; then
+  if command -v fastfetch &> /dev/null; then
+    fastfetch
+  fi
+fi
