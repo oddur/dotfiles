@@ -17,7 +17,6 @@ echo "## adding autocompletions  " | gum format
 source <(kubectl completion zsh)
 source <(devbox completion zsh)
 source <(docker completion zsh)
-source <(kubectl completion zsh)
 source <(istioctl completion zsh)
 source <(stern --completion=zsh)
 
@@ -34,6 +33,8 @@ autoload -U compinit; compinit
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+export PATH="/Users/oddurmagnusson/.cargo/bin:$PATH"
+
 
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -51,12 +52,13 @@ echo "## initialize fzf and friends" | gum format
 source <(fzf --zsh)
 
 # use zoxide instead of cd
-eval "$(zoxide init zsh)"
-alias cd="z"
+if [[ "$CLAUDECODE" != "1" ]]; then
+  eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
 
 # initialize direnv
 eval "$(direnv hook zsh)"
-
 
 # kubecolor
 #compdef kubecolor=kubectl
@@ -88,7 +90,6 @@ rfv() (
 export EDITOR="nvim"
 
 
-
 echo "## initialize fzf" | gum format
 source ~/fzf-git.sh
 
@@ -104,7 +105,14 @@ alias v="nvim"
 alias k="kubectl"
 alias g="git"
 alias lg="lazygit"
-alias y="yazi"
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 
 echo "## initialize terraform cache" | gum format
 # setup terraform plugin cache to speed things up
@@ -113,13 +121,11 @@ export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
 echo "## Initializing google cloud" | gum format
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
+time if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
 
-echo "# Shell init complete" | gum format
-echo "# You are in $(pwd)" | gum format
 
 
 # pnpm
@@ -131,8 +137,19 @@ esac
 # pnpm end
 #
 
-if [[ -o interactive ]]; then
-  if command -v fastfetch &> /dev/null; then
-    fastfetch
-  fi
-fi
+echo "# Shell init complete" | gum format
+echo "# You are in $(pwd)" | gum format
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/oddurmagnusson/.antigravity/antigravity/bin:$PATH"
+
+source /Users/oddurmagnusson/.config/broot/launcher/bash/br
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/oddurmagnusson/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+# Added by CodeRabbit CLI installer
+export PATH="/Users/oddurmagnusson/.local/bin:$PATH"
