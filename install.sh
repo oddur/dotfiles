@@ -84,7 +84,7 @@ brew install asdf
 brew install bat
 
 # Install Glow, a CLI tool to render Markdown files in the terminal beautifully
-brew install glow 
+brew install glow
 
 # Install Gum, a tool to build rich shell scripts with UI components like prompts and menus
 brew install gum
@@ -92,29 +92,30 @@ brew install gum
 # Install Starship, a highly customizable shell prompt for any shell environment
 brew install starship
 
-# Install Tmux, a terminal multiplexer to manage multiple terminal sessions in one window or remotely 
+# Install Tmux, a terminal multiplexer to manage multiple terminal sessions in one window or remotely
 brew install tmux
 
 ## Zsh plugins to enhance functionality and productivity in Zsh shell:
-brew install zsh-autosuggestions # Suggest commands based on history or completions as you type.
+brew install zsh-autosuggestions          # Suggest commands based on history or completions as you type.
 brew install zsh-history-substring-search # Search through command history by substring.
-brew install zsh-syntax-highlighting # Highlight syntax errors or commands in the terminal.
+brew install zsh-syntax-highlighting      # Highlight syntax errors or commands in the terminal.
 
 ## Helper tools:
 brew install thefuck # Corrects previous console commands automatically.
-brew install tldr # Simplified man pages with practical examples.
+brew install tldr    # Simplified man pages with practical examples.
 
 ## System monitoring tools:
-brew install btop # Resource monitor with an interactive UI.
-brew install htop # Advanced process viewer.
+brew install btop  # Resource monitor with an interactive UI.
+brew install htop  # Advanced process viewer.
 brew install dustu # Disk usage analyzer in the style of `du`.
 
 ## Developer tools:
-brew install neovim # Modern Vim-based text editor.
+brew install neovim    # Modern Vim-based text editor.
 brew install tailscale # Zero-config VPN using WireGuard.
-brew install zellij # Terminal workspace manager.
-brew install atuin # Enhanced shell history management.
+brew install zellij    # Terminal workspace manager.
+brew install atuin     # Enhanced shell history management.
 
 ## JSON processing:
 brew install jq # Lightweight and flexible command-line JSON processor.
 
+brew install pre-commit

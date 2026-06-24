@@ -1,17 +1,21 @@
-echo "# 👾 Welcome to Oddur's Mega Shell Config 👾" | gum format
-
 autoload -U compinit; compinit
 
 # Prevents duplicate commands from being stored in the command history.
 setopt HIST_IGNORE_ALL_DUPS
 
-echo "## Setting up devbox" | gum format
-# Devbox
-DEVBOX_NO_PROMPT=true
-eval "$(devbox global shellenv --init-hook)"
-echo "## copleted Setting up devbox" | gum format
-
-echo "## adding autocompletions  " | gum format
+# Devbox — cached shellenv to avoid per-shell network calls + nix eval cost.
+export DEVBOX_NO_PROMPT=true
+export DO_NOT_TRACK=1              # disable devbox telemetry (segment.io)
+export DEVBOX_USE_VERSION=0.17.5  # pin launcher -> skip releases.jetify.com version check
+_devbox_global="$HOME/.local/share/devbox/global/default"
+_devbox_cache="${XDG_CACHE_HOME:-$HOME/.cache}/devbox-global-shellenv.zsh"
+if [[ ! -s "$_devbox_cache" \
+   || "$_devbox_global/devbox.json" -nt "$_devbox_cache" \
+   || "$_devbox_global/devbox.lock" -nt "$_devbox_cache" ]]; then
+  devbox global shellenv --init-hook > "$_devbox_cache"
+fi
+source "$_devbox_cache"
+unset _devbox_global _devbox_cache
 
 # Add autocompletions
 source <(kubectl completion zsh)
@@ -23,30 +27,29 @@ source <(stern --completion=zsh)
 # atuin for command history
 eval "$(atuin init zsh)"
 
-echo "## adding environment variables " | gum format
 # load the environment variables
 source ~/.set_env_vars.sh
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 autoload -U compinit; compinit
 
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# Java — only configure if a runtime is actually installed (silences java_home error)
+if _java_home="$(/usr/libexec/java_home 2>/dev/null)"; then
+  export JAVA_HOME="$_java_home"
+fi
+unset _java_home
+[ -d /opt/homebrew/opt/openjdk/bin ] && export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="/Users/oddurmagnusson/.cargo/bin:$PATH"
 
 
 export XDG_CONFIG_HOME=$HOME/.config
 
-echo "## initialize starship" | gum format
-
 eval "$(starship init zsh)"
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-echo "## initialize fzf and friends" | gum format
 
 # Fuzzy search
 source <(fzf --zsh)
@@ -64,8 +67,6 @@ eval "$(direnv hook zsh)"
 #compdef kubecolor=kubectl
 
 eval $(thefuck --alias)
-
-echo "## initialize rfv" | gum format
 
 # Taken from https://junegunn.github.io/fzf/tips/ripgrep-integration/
 # ripgrep->fzf->vim [QUERY]
@@ -90,10 +91,7 @@ rfv() (
 export EDITOR="nvim"
 
 
-echo "## initialize fzf" | gum format
 source ~/fzf-git.sh
-
-echo "## initialize alias" | gum format
 
 alias ls='eza --all --icons=always  --no-permissions --no-filesize --no-user --no-time --git'
 alias ll='eza --long  --header --all --icons=always  --git --no-user --no-permissions'
@@ -114,14 +112,12 @@ function y() {
 	rm -f -- "$tmp"
 }
 
-echo "## initialize terraform cache" | gum format
 # setup terraform plugin cache to speed things up
 mkdir -p $HOME/.terraform.d/plugin-cache
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
 
-echo "## Initializing google cloud" | gum format
 # The next line updates PATH for the Google Cloud SDK.
-time if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/oddurmagnusson/google-cloud-sdk/completion.zsh.inc'; fi
@@ -137,14 +133,11 @@ esac
 # pnpm end
 #
 
-echo "# Shell init complete" | gum format
-echo "# You are in $(pwd)" | gum format
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/oddurmagnusson/.antigravity/antigravity/bin:$PATH"
 
-source /Users/oddurmagnusson/.config/broot/launcher/bash/br
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/oddurmagnusson/.docker/completions $fpath)
 autoload -Uz compinit
@@ -153,3 +146,19 @@ compinit
 
 # Added by CodeRabbit CLI installer
 export PATH="/Users/oddurmagnusson/.local/bin:$PATH"
+eval "$(tv init zsh)"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/oddur/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+source /Users/oddur/.config/broot/launcher/bash/br
+export PATH="$HOME/.local/bin:$PATH"
+
+# Welcome screen — system info via fastfetch.
+# Only in real interactive terminals: skips Claude Code, scripts, and piped/captured output.
+if [[ -o interactive && -t 1 && "$CLAUDECODE" != "1" ]] && command -v fastfetch >/dev/null; then
+  fastfetch
+fi

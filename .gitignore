@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Editor swap files
+*.swp
+*.swo
+
+# Runtime data, caches, plugin clones, SSH sockets, machine-specific symlinks
+# (~/dotfiles/.local is ~5.8GB of nvim plugins / NuGet caches / game content — not dotfiles)
+.local/
+bin/docker-credential-desktop
+
+# Stow / devbox / secrets artifacts (mirrors .stow-local-ignore)
+.devbox/
+devbox.json
+devbox.lock
+.teller.yml
+gcloud/
